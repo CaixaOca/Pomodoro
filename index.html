@@ -1,0 +1,130 @@
+<script>
+
+    var min
+    var sec
+    var cicle = 1
+
+    function pomodoro(){
+
+        min = document.getElementById("workout_time").value
+        sec = 0
+
+        interval = setInterval(work,1000);
+
+    }
+
+    function work(){
+
+        document.getElementById("timer").value = "Work: " + min + "m " + sec + "s"
+
+        sec--
+
+        if(sec == -1){
+            min--
+            sec = 59
+        }
+
+        if(min == 0 && sec == 0){
+
+            clearInterval(interval)
+
+            play_audio()
+
+            if(cicle == 1){
+
+                min = document.getElementById("cicle_rest_1").value
+                sec = 0
+
+                interval = setInterval(rest,1000);
+                
+            }else{
+
+                min = parseInt(document.getElementById("cicle_rest_1").value) + parseInt((document.getElementById("cicle_rest_inc").value) * (cicle - 1))
+                sec = 0
+
+                if(min > document.getElementById("cicle_rest_max").value){
+
+                    min = document.getElementById("cicle_rest_max").value
+
+                }
+
+                interval = setInterval(rest,1000);
+
+            }
+
+        }
+
+    }
+
+    function rest(){
+
+        document.getElementById("timer").value = "Rest: " + min + "m " + sec + "s"
+
+        sec--
+
+        if(sec == -1){
+            min--
+            sec = 59
+        }
+
+        if(min == 0 && sec == 0){
+
+            clearInterval(interval)
+
+            play_audio()
+
+            cicle ++
+
+            pomodoro()
+
+        }
+
+    }
+
+    function play_audio(){
+
+        var audio = new Audio('beep.mp3');
+
+        audio.play();
+
+    }
+
+</script>
+
+<html style="background-image: url('bg.png'); background-size: 100%;">
+    <h1 style="text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">Pomodoro</h1>
+
+    <br>
+
+    <form action="javascript: pomodoro()">
+
+        <h4 style="text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">Work time:</h4><input type="number" id="workout_time" step="1" value="25" min="1" style="margin-left: 45%; ;width: 10%; background-color:  transparent; border-style: solid; border-color: white; text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">
+    
+        <br>
+
+        <h4 style="text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">1º Cicle rest time:</h4><input type="number" id="cicle_rest_1" step="1" value="5" min="1" style="margin-left: 45%; ;width: 10%; background-color:  transparent; border-style: solid; border-color: white; text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">
+        
+        <br>
+
+        <h4 style="text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">Cicle rest incrementation time:</h4><input type="number" id="cicle_rest_inc" step="1" value="5" min="0" style="margin-left: 45%; ;width: 10%; background-color:  transparent; border-style: solid; border-color: white; text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">
+        
+        <br>
+
+        <h4 style="text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">Maximum rest time:</h4><input type="number" id="cicle_rest_max" step="1" value="15" min="1" style="margin-left: 45%; ;width: 10%; background-color:  transparent; border-style: solid; border-color: white; text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">
+        
+        <br><br>
+
+        <input type="submit" value="Start Pomodoro" style="margin-left: 45%; ;width: 10%; background-color:  transparent; border-style: solid; border-color: white; text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">
+
+        <br><br>
+
+        <input type="button" id="timer" value="TIMER" style="margin-left: 35%; ;width: 30%; background-color:  transparent; border-style: none; text-align: center; color: white; font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 55px;">
+        
+        <br>
+
+        <h6 style="text-align: center; color: white; font-family: Arial, Helvetica, sans-serif;">(Restart the page to restart the timer)</h6>
+
+    </form>
+
+</html>
+
